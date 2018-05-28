@@ -14,11 +14,12 @@ class GraphSubWindow : public QMdiSubWindow
 
 public:
     explicit GraphSubWindow(QWidget *parent = 0);
+    GraphSubWindow(QWidget *parent, QString& inputText);
     ~GraphSubWindow();
 
 private slots:
     void Proceed();
-
+    void Save();
 private:
     Ui::GraphSubWindow *ui;
 

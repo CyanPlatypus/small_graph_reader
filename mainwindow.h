@@ -20,6 +20,7 @@ private slots:
     void OnOpenClick();
     void OnNewClick();
 private:
+    void CreateGraphSubWindow(QString title, QString text);
     Ui::MainWindow *ui;
 };
 

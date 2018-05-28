@@ -86,8 +86,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>saveButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GraphSubWindow</receiver>
+   <slot>Save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>250</x>
+     <y>196</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Proceed()</slot>
+  <slot>Save()</slot>
  </slots>
 </ui>

@@ -90,7 +90,7 @@
    <sender>actionOpen</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>showMaximized()</slot>
+   <slot>OnOpenClick()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>199</x>
@@ -137,5 +137,6 @@
  </connections>
  <slots>
   <slot>OnNewClick()</slot>
+  <slot>OnOpenClick()</slot>
  </slots>
 </ui>

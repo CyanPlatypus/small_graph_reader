@@ -22,9 +22,12 @@ QString GraphManager::FindConnectedComponents(QString str){
             for (int ii = 1; ii < vertexList.count(); ii++){
                 graphMap[vertexList.at(0)]
                         .insert(vertexList.at(ii));
+                graphMap[vertexList.at(ii)].insert(vertexList.at(0));
             }
         }
-
+        if(vertexList.count() == 1){
+            graphMap.insert(make_pair(vertexList.at(0), set<QString>()));
+        }
     }
 
 
