@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::CreateGraphSubWindow(QString title, QString text){
+void MainWindow::CreateGraphSubWindow(const QString& title, const QString& text){
     GraphSubWindow *subWindow = new GraphSubWindow(ui->mdiArea, text);
     subWindow->setAttribute(Qt::WA_DeleteOnClose);
     subWindow->setWindowTitle(title);
@@ -51,4 +51,27 @@ void MainWindow::OnOpenClick() {
 void MainWindow::OnNewClick(){
     qDebug()<<"New clicked.";
     CreateGraphSubWindow("title", "");
+}
+
+void MainWindow::OnFindComponentsClick(){
+    std::map<QString, QString> nameText
+            = dynamic_cast<GraphSubWindow*>(ui->mdiArea->currentSubWindow())->Proceed();
+    for(auto& tab : nameText){
+        CreateGraphSubWindow(tab.first, tab.second);
+    }
+}
+
+void MainWindow::OnSaveClick(){
+
+    qDebug()<<"Save clicked.";
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                               "", tr("Text File (*.txt)"));
+    QFile qSaveFile(fileName);
+    if(qSaveFile.open(QFile::WriteOnly)){
+        QTextStream ts(&qSaveFile);
+        ts << dynamic_cast<GraphSubWindow*>(ui->mdiArea->currentSubWindow())->Save();
+        qSaveFile.close();
+    }
+
+
 }

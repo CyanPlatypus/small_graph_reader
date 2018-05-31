@@ -19,8 +19,11 @@ public:
 private slots:
     void OnOpenClick();
     void OnNewClick();
+    void OnSaveClick();
+    void OnFindComponentsClick();
+
 private:
-    void CreateGraphSubWindow(QString title, QString text);
+    void CreateGraphSubWindow(const QString& title, const QString& text);
     Ui::MainWindow *ui;
 };
 

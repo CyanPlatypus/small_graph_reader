@@ -47,13 +47,19 @@
    </property>
    <widget class="QMenu" name="menuMenu">
     <property name="title">
-     <string>Menu</string>
+     <string>File</string>
     </property>
     <addaction name="actionOpen"/>
-    <addaction name="actionClose"/>
-    <addaction name="actionNew"/>
+    <addaction name="actionSave"/>
+   </widget>
+   <widget class="QMenu" name="menuGraph">
+    <property name="title">
+     <string>Graph</string>
+    </property>
+    <addaction name="actionFind_components"/>
    </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuGraph"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
@@ -82,6 +88,16 @@
     <string>New</string>
    </property>
   </action>
+  <action name="actionFind_components">
+   <property name="text">
+    <string>Find components</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -91,22 +107,6 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>OnOpenClick()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionClose</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -134,9 +134,43 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionFind_components</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>OnFindComponentsClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>OnSaveClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>OnNewClick()</slot>
   <slot>OnOpenClick()</slot>
+  <slot>OnFindComponentsClick()</slot>
+  <slot>OnSaveClick()</slot>
  </slots>
 </ui>

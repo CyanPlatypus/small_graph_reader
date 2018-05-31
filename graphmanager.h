@@ -2,12 +2,22 @@
 #define GRAPHMANAGER_H
 
 #include <QObject>
+#include <set>
 
 class GraphManager
 {
 public:
     GraphManager();
-    static QString FindConnectedComponents(QString str);
+    GraphManager(const QString& input);
+    ~GraphManager();
+
+    std::map<QString, QString> FindConnectedComponents();
+    QString Export();
+
+private:
+    std::map<QString, std::set<QString>> graphMap;
+    QString graphText;
+    void CreateGraph(const QString& input);
 };
 
 #endif // GRAPHMANAGER_H

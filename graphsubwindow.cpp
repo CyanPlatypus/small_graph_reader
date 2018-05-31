@@ -6,6 +6,8 @@
 #include <QtCore>
 #include <QtWidgets>
 
+using namespace std;
+
 GraphSubWindow::GraphSubWindow(QWidget *parent) :
     QMdiSubWindow(parent),
     ui(new Ui::GraphSubWindow)
@@ -14,39 +16,35 @@ GraphSubWindow::GraphSubWindow(QWidget *parent) :
     setWidget(ui->widget);
 }
 
-GraphSubWindow::GraphSubWindow(QWidget *parent, QString& inputText) :
+GraphSubWindow::GraphSubWindow(QWidget *parent, const QString& inputText) :
     QMdiSubWindow(parent),
-    ui(new Ui::GraphSubWindow)
+    ui(new Ui::GraphSubWindow),
+    graphManager(new GraphManager(inputText))
 {
     ui->setupUi(this);
     setWidget(ui->widget);
     ui->inputTextEdit->setPlainText(inputText);
 }
 
+
 GraphSubWindow::~GraphSubWindow()
 {
     delete ui;
 }
 
-void GraphSubWindow::Proceed(){
-    qDebug()<<"Start clicked.";
-    ui->outputTextEdit->clear();
-    ui->outputTextEdit
-            ->setPlainText(
-                GraphManager::FindConnectedComponents(
-                    ui->inputTextEdit->toPlainText()));
+map<QString, QString> GraphSubWindow::Proceed(){
+//    qDebug()<<"Start clicked.";
+//    ui->outputTextEdit->clear();
+//    ui->outputTextEdit
+//            ->setPlainText(
+//                GraphManager::FindConnectedComponents(
+//                    ui->inputTextEdit->toPlainText()));
+
+    return graphManager->FindConnectedComponents();
 
 }
 
-void GraphSubWindow::Save(){
-    qDebug()<<"Save clicked.";
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                               "", tr("Text File (*.txt)"));
-    QFile qSaveFile(fileName);
-    if(qSaveFile.open(QFile::WriteOnly)){
-        QTextStream ts(&qSaveFile);
-        ts << ui->outputTextEdit->toPlainText();
-        qSaveFile.close();
-    }
 
+QString GraphSubWindow::Save(){
+    return graphManager->Export();
 }

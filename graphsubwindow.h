@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMdiSubWindow>
+#include <graphmanager.h>
 
 namespace Ui {
 class GraphSubWindow;
@@ -14,16 +15,15 @@ class GraphSubWindow : public QMdiSubWindow
 
 public:
     explicit GraphSubWindow(QWidget *parent = 0);
-    GraphSubWindow(QWidget *parent, QString& inputText);
+    GraphSubWindow(QWidget *parent, const QString& inputText);
     ~GraphSubWindow();
 
-private slots:
-    void Proceed();
-    void Save();
+    std::map<QString, QString>  Proceed();
+    QString Save();
 private:
     Ui::GraphSubWindow *ui;
 
-
+    GraphManager *graphManager;
 };
 
 #endif // GRAPHSUBWINDOW_H

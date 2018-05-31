@@ -8,20 +8,30 @@ using namespace std;
 GraphManager::GraphManager(){
 }
 
-QString GraphManager::FindConnectedComponents(QString str){
+GraphManager::GraphManager(const QString& input){
+    CreateGraph(input);
+    graphText = input;
+}
 
-    QStringList stringList = str.split('\n', QString::SkipEmptyParts);
+GraphManager::~GraphManager(){
+}
 
-    map<QString, set<QString>> graphMap;
+QString GraphManager::Export(){
+    return graphText;
+}
+
+void GraphManager::CreateGraph(const QString& input){
+    QStringList stringList = input.split('\n', QString::SkipEmptyParts);
 
     //parse input into map
     for (int i = 0; i < stringList.count(); i++){
         QStringList vertexList = stringList.at(i).split(' ', QString::SkipEmptyParts);
-        //cout << fonts.at(i).toLocal8Bit().constData() << endl;
+
         if(vertexList.count() > 0){
             for (int ii = 1; ii < vertexList.count(); ii++){
                 graphMap[vertexList.at(0)]
                         .insert(vertexList.at(ii));
+                //make map full
                 graphMap[vertexList.at(ii)].insert(vertexList.at(0));
             }
         }
@@ -29,8 +39,9 @@ QString GraphManager::FindConnectedComponents(QString str){
             graphMap.insert(make_pair(vertexList.at(0), set<QString>()));
         }
     }
+}
 
-
+map<QString, QString> GraphManager::FindConnectedComponents(){
 
     //for vertexes that have already been added to components map
     vector<QString> addedVertexes;
@@ -73,16 +84,35 @@ QString GraphManager::FindConnectedComponents(QString str){
 
     }
 
-    QStringList result;
+    map<QString, QString> components;
 
     for(auto& component : componentsMap){
-        QString componentStr;
-        componentStr.append(component.first + " ");
-        for(auto& vert : component.second){
-            componentStr.append(vert + " ");
+        QStringList fileGraph;
+        //far all vertexes from one component
+        for(auto& componVertex: component.second){
+            QStringList fileGraphLine;
+            fileGraphLine.append(componVertex);
+            //far all adjacent vertexes of curr vertex
+            for(auto& adjacentVert : graphMap[componVertex]){
+                fileGraphLine.append(adjacentVert);
+            }
+            fileGraph.append(fileGraphLine.join(' '));
         }
-        result.append(componentStr);
+        components[component.first]=fileGraph.join('\n');
     }
+    return components;
 
-    return result.join("\n");
+
+//    QStringList result;
+
+//    for(auto& component : componentsMap){
+//        QString componentStr;
+//        componentStr.append(component.first + " ");
+//        for(auto& vert : component.second){
+//            componentStr.append(vert + " ");
+//        }
+//        result.append(componentStr);
+//    }
+
+//    return result.join("\n");
 }
