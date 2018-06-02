@@ -13,7 +13,7 @@ public:
 
     std::map<QString, QString> FindConnectedComponents();
     QString Export();
-
+    const std::map<QString, std::set<QString>>& GetInnerRepresentation();
 private:
     std::map<QString, std::set<QString>> graphMap;
     QString graphText;

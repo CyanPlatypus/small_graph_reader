@@ -5,6 +5,7 @@
 
 #include <QtCore>
 #include <QtWidgets>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,12 +30,6 @@ void MainWindow::CreateGraphSubWindow(const QString& title, const QString& text)
 
 void MainWindow::OnOpenClick() {
     qDebug()<<"Open clicked.";
-//    QMessageBox msgBox;
-//    msgBox.setText("The document has been modified.");
-//    msgBox.setInformativeText("Do you want to save your changes?");
-//    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-//    msgBox.setDefaultButton(QMessageBox::Save);
-//    int ret = msgBox.exec();
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open File"),"", tr("Text Files (*.txt)"));
 
@@ -54,24 +49,44 @@ void MainWindow::OnNewClick(){
 }
 
 void MainWindow::OnFindComponentsClick(){
-    std::map<QString, QString> nameText
-            = dynamic_cast<GraphSubWindow*>(ui->mdiArea->currentSubWindow())->Proceed();
-    for(auto& tab : nameText){
-        CreateGraphSubWindow(tab.first, tab.second);
+    qDebug()<<"Find clicked.";
+
+    GraphSubWindow* grSubWind = GetGraphSubWindow();
+    if (grSubWind!= nullptr){
+        std::map<QString, QString> nameText = grSubWind->Proceed();
+        for(auto& tab : nameText){
+            CreateGraphSubWindow(tab.first, tab.second);
+        }
     }
 }
 
 void MainWindow::OnSaveClick(){
-
     qDebug()<<"Save clicked.";
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                               "", tr("Text File (*.txt)"));
-    QFile qSaveFile(fileName);
-    if(qSaveFile.open(QFile::WriteOnly)){
-        QTextStream ts(&qSaveFile);
-        ts << dynamic_cast<GraphSubWindow*>(ui->mdiArea->currentSubWindow())->Save();
-        qSaveFile.close();
+
+    GraphSubWindow* grSubWind = GetGraphSubWindow();
+    if (grSubWind!= nullptr){
+
+        QString fileName = QFileDialog::getSaveFileName(
+                    this, tr("Save File"),"", tr("Text File (*.txt)"));
+        QFile qSaveFile(fileName);
+        if(qSaveFile.open(QFile::WriteOnly)){
+            QTextStream ts(&qSaveFile);
+            ts << grSubWind->Save();
+            qSaveFile.close();
+        }
     }
-
-
 }
+
+GraphSubWindow* MainWindow::GetGraphSubWindow(){
+    if(SubWindowExists())
+        return dynamic_cast<GraphSubWindow*>(ui->mdiArea->currentSubWindow());
+    else{
+        QMessageBox::information(0, "Error", "No window selected.");
+        return nullptr;
+    }
+}
+
+bool MainWindow::SubWindowExists(){
+    return (ui->mdiArea->subWindowList().count() != 0);
+}
+

@@ -116,3 +116,7 @@ map<QString, QString> GraphManager::FindConnectedComponents(){
 
 //    return result.join("\n");
 }
+
+const std::map<QString, std::set<QString>>& GraphManager::GetInnerRepresentation(){
+    return graphMap;
+}

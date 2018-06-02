@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
+#include "graphsubwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,8 @@ private slots:
 
 private:
     void CreateGraphSubWindow(const QString& title, const QString& text);
+    GraphSubWindow* GetGraphSubWindow();
+    bool SubWindowExists();
     Ui::MainWindow *ui;
 };
 

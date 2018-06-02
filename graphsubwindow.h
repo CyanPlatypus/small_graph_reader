@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMdiSubWindow>
+#include <QGraphicsScene>
 #include <graphmanager.h>
 
 namespace Ui {
@@ -21,8 +22,10 @@ public:
     std::map<QString, QString>  Proceed();
     QString Save();
 private:
-    Ui::GraphSubWindow *ui;
+    void DrawGraph();
 
+    Ui::GraphSubWindow *ui;
+    QGraphicsScene * graphicsScene;
     GraphManager *graphManager;
 };
 
